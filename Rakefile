@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "privatepaste"
   gem.homepage = "http://github.com/dougsko/privatepaste"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{A CLI for privatepaste.com}
+  gem.description = %Q{A CLI for privatepaste.com}
   gem.email = "dougtko@gmail.com"
   gem.authors = ["Doug P."]
   # dependencies defined in Gemfile
