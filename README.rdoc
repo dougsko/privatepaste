@@ -1,6 +1,6 @@
 = privatepaste
 
-Description goes here.
+A CLI client for privatepaste.com
 
 == Contributing to privatepaste
  
@@ -14,6 +14,6 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2011 Doug P.. See LICENSE.txt for
+Copyright (c) 2011 Doug P. See LICENSE.txt for
 further details.
 

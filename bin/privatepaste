@@ -1,0 +1,144 @@
+#!/usr/bin/env ruby
+#
+# Command line interface for privatepaste.com
+#
+
+require 'rubygems'
+require 'optparse'
+require 'lib/privatepaste'
+
+options = {}
+options["secure_paste_key"] = ""
+opts = OptionParser.new do |opts|
+    opts.banner =  "privatepaste is a CLI to https://privatepaste.com
+    Usage: privatepaste <options>
+    Example: privatepaste -f foo.rb -t ruby -e '5 min'"
+
+    opts.separator ""
+    opts.separator "Options:"
+
+    opts.on("-f <file>", 
+            "--file <file>", 
+            String,
+            "Use a file for input, use \"-\" for STDIN") do |f|
+                options["paste_content"] = f
+            end
+
+    syntax_array = ['ActionScript',
+        'AppleScript',
+        'Apache',
+        'Bash',
+        'BBCode',
+        'Boo',
+        'C',
+        'Clojure',
+        'CSS',
+        'C++',
+        'C#',
+        'Delphi',
+        'Diff',
+        'Erlang',
+        'Fortran',
+        'Haskell',
+        'HTML',
+        'INI',
+        'IRC',
+        'Java',
+        'JavaScript',
+        'JSP',
+        'Lighthttpd',
+        'LUA',
+        'Makefile',
+        'Matlab',
+        'NASM',
+        'Nginx',
+        'Objective C',
+        'OCaml',
+        'Pascal',
+        'Perl',
+        'PHP',
+        'Python',
+        'Rst',
+        'Ruby',
+        'Scheme',
+        'Smalltalk',
+        'Smarty',
+        'Squid',
+        'SQL',
+        'TeX',
+        'TCL',
+        'Wiki',
+        'VBNet',
+        'VimL',
+        'XML',
+        'XSLT',
+        'YAML'
+    ]
+
+    syntax_list = syntax_array.join(", ")
+    opts.on("-l",
+            "--language <syntax>",
+            syntax_array,
+            "Syntax types can be abbriviated, as long as they are unambigous.",
+            "  #{syntax_list}") do |encoding|
+                options["formatting"] = encoding
+            end
+
+    opts.on("-l", "--lines", "Show line numbers.") do
+        options["line_numbers"] = "on"
+    end
+
+    expire_hash = {'5 min' => '360',
+        '15 min' => '900',
+        '30 min' => '1800',
+        '1 hour' => '3600',
+        '1 day' => '86400',
+        '5 days' => '432000',
+        '1 week' => '604800',
+        '1 month' => '2592000',
+        '3 months' => '7776000',
+        '6 months' => '15552000',
+        '1 year' => '31536000'
+    }
+
+    expire_array = []
+    expire_hash.each do |k,v|
+        expire_array << k
+    end
+    expire_list = expire_array.join(", ")
+    opts.on("-e",
+            "--expire <time>",
+            expire_array,
+            "These can be abbriviated, as long as they are unambigous.",
+            "#{expire_list}" ) do |e|
+                options["expire"] = expire_hash[e]
+     end
+
+    opts.on("-k",
+            "--key <password>",
+            String,
+            "Protect your paste with a password.") do |k|
+                options["secure_paste"] = "on"
+                options["secure_paste_key"] = k
+    end
+
+    opts.on("-r",
+            "--raw <link>",
+            String,
+            "Return the text of a paste.") do |r|
+                options["link"] = r
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+    end
+end
+
+opts.parse(ARGV)
+privpaste = Privatepaste.new(options)
+if options["link"]
+    puts privpaste.get_raw
+else
+    puts privpaste.paste
+end
