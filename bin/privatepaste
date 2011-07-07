@@ -5,7 +5,7 @@
 
 require 'rubygems'
 require 'optparse'
-require 'lib/privatepaste'
+require 'privatepaste'
 
 options = {}
 options["secure_paste_key"] = ""
