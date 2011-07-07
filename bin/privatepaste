@@ -76,8 +76,8 @@ opts = OptionParser.new do |opts|
     ]
 
     syntax_list = syntax_array.join(", ")
-    opts.on("-l",
-            "--language <syntax>",
+    opts.on("-s",
+            "--syntax <language>",
             syntax_array,
             "Syntax types can be abbriviated, as long as they are unambigous.",
             "  #{syntax_list}") do |encoding|
